@@ -5,7 +5,7 @@ class Game:
     def __init__(self, symbol_1: str, symbol_2: str) -> None:
         self.board = {'1': " ", '2': " ", '3': " ", '4': " ",
                       '5': " ", '6': " ", '7': " ", '8': " ", '9': " "}
-        assert len(symbol_1) == len(symbol_2)
+        assert len(symbol_1) == len(symbol_2) == 1 # all symbol lengths are 1
         self.player1 = symbol_1
         self.player2 = symbol_2
 
