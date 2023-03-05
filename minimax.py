@@ -7,7 +7,7 @@ first_or_not = input("Enter F or first or S for second: ").lower()
 
 
 def minimax(interface, ismaximising, depth) -> int:
-    if (winner := interface.check_winner(not ismaximising)) != 69:
+    if (winner := interface.check_winner(not ismaximising)) != 69: # 69 means no winner yet
         return winner, depth
 
     if not ismaximising:
@@ -46,16 +46,16 @@ def get_best_move(interface, player):
         interface.play_turn(move, player)
         score, depth = minimax(interface, not player, 0)
         if score <= best_score:
-            if depth < shortest_depth:
+            if depth < shortest_depth: # if the move is the shortest win/draw and its score is good enough (<= score)
                 best_score = score
                 best_move = move
+        # Testing print statement
         # print(f"Move = {move}, Score = {score}, Depth = {depth}")
         interface.undo_move(move)
     return best_move
 
 
 player = False
-
 if first_or_not == "f":
     player = True
     game.print_board()
