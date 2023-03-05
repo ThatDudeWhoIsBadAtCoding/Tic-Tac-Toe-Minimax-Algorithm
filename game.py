@@ -20,15 +20,11 @@ class Game:
 
     def play_turn(self, move, player):
         if self.board[str(move)] != " ":
-            # print(self.board[str(move)], move)
-            # self.print_board()
             raise ValueError("Square is already occupied")
         self.board[str(move)] = self.player1 if player else self.player2
 
     def undo_move(self, move) -> None:
-        # board = self.board
         self.board[str(move)] = " "
-        #  board != self.board
 
     def check_winner(self, player) -> int:
         # checking rows
@@ -49,6 +45,7 @@ class Game:
             return 0
         return 69
 
+# TESTING CODE
 # game = Game("X", "O")
 # game.print_board()
 # while game.turn < 9:
