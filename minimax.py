@@ -10,16 +10,7 @@ def minimax(interface, ismaximising, depth) -> int:
     if (winner := interface.check_winner(not ismaximising)) != 69: # 69 means no winner yet
         return winner, depth
 
-    if not ismaximising:
-        best_score = inf
-        all_moves = get_all_moves(interface)
-        for move in all_moves:
-            interface.play_turn(move, ismaximising)
-            score, depth = minimax(interface, not ismaximising, depth + 1)
-            interface.undo_move(move)
-            best_score = min(best_score, score)
-        return best_score, depth
-    else:
+    if ismaximising:
         best_score = -inf
         all_moves = get_all_moves(interface)
         for move in all_moves:
@@ -27,6 +18,15 @@ def minimax(interface, ismaximising, depth) -> int:
             score, depth = minimax(interface, not ismaximising, depth + 1)
             interface.undo_move(move)
             best_score = max(best_score, score)
+        return best_score, depth
+    else:
+        best_score = inf
+        all_moves = get_all_moves(interface)
+        for move in all_moves:
+            interface.play_turn(move, ismaximising)
+            score, depth = minimax(interface, not ismaximising, depth + 1)
+            interface.undo_move(move)
+            best_score = min(best_score, score)
         return best_score, depth
 
 
