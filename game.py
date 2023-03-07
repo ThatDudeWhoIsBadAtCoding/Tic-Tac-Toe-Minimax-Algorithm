@@ -3,10 +3,10 @@ print("Welcome to TicTac Toe!")
 
 class Game:
     def __init__(self, symbol_1: str, symbol_2: str) -> None:
-        self.board = {str(i): ' ' for i in range(1, 10)}
-        assert len(symbol_1) == len(symbol_2) == 1 # all symbol lengths are 1
-        self.player1 = symbol_1
-        self.player2 = symbol_2
+        self.board: dict = {str(i): ' ' for i in range(1, 10)}
+        assert len(symbol_1) == len(symbol_2) == 1
+        self.player1: str = symbol_1
+        self.player2: str = symbol_2
 
     def print_board(self) -> None:
         print("---------")
@@ -18,15 +18,19 @@ class Game:
             else:
                 print(" | ", end="")
 
-    def play_turn(self, move, player):
+    def play_turn(self, move: int, player: int):
         if self.board[str(move)] != " ":
+            # print(self.board[str(move)], move)
+            # self.print_board()
             raise ValueError("Square is already occupied")
         self.board[str(move)] = self.player1 if player else self.player2
 
-    def undo_move(self, move) -> None:
+    def undo_move(self, move: int) -> None:
+        # board = self.board
         self.board[str(move)] = " "
+        #  board != self.board
 
-    def check_winner(self, player) -> int:
+    def check_winner(self, player: int) -> int:
         # checking rows
         for i in [1, 4, 7]:
             if self.board[str(i)] == self.board[str(i + 1)] == self.board[str(i + 2)] and self.board[str(i)] != " ":
@@ -40,23 +44,7 @@ class Game:
         # checking diagonals
         if self.board["1"] == self.board["5"] == self.board["9"] != " " or self.board["3"] == self.board["5"] == self.board["7"] != " ":
             return 1 if player else -1
-
+        # checking for a draw
         if list(self.board.values()).count(" ") == 0:
             return 0
         return 69
-
-# TESTING CODE
-# game = Game("X", "O")
-# game.print_board()
-# while game.turn < 9:
-#     square = int(input("Enter your Move: "))
-#     assert 0 < square < 10  # square is between 1 and 10
-#     game.play_turn(square)
-#     if (winner := game.check_winner()) != 0:
-#         if winner == 1:
-#             print("Player wins!")
-#         else:
-#             print("Computer wins!")
-#         game.print_board()
-#         break
-#     game.print_board()
