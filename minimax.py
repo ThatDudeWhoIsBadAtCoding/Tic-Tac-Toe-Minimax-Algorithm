@@ -6,8 +6,8 @@ game = Game("X", "O")
 first_or_not = input("Enter F or first or S for second: ").lower()
 
 
-def minimax(interface, ismaximising, depth) -> int:
-    if (winner := interface.check_winner(not ismaximising)) != 69: # 69 means no winner yet
+def minimax(interface: Game, ismaximising: bool, depth: int) -> int:
+    if (winner := interface.check_winner(not ismaximising)) != 69:
         return winner, depth
 
     if ismaximising:
@@ -30,7 +30,7 @@ def minimax(interface, ismaximising, depth) -> int:
         return best_score, depth
 
 
-def get_all_moves(interface):
+def get_all_moves(interface: Game) -> list[int]:
     possible_moves = []
     for num, square in interface.board.items():
         if square == " ":
@@ -38,7 +38,7 @@ def get_all_moves(interface):
     return possible_moves
 
 
-def get_best_move(interface, player):
+def get_best_move(interface: Game, player: bool) -> int:
     best_move = None
     best_score = inf
     shortest_depth = inf
@@ -46,16 +46,16 @@ def get_best_move(interface, player):
         interface.play_turn(move, player)
         score, depth = minimax(interface, not player, 0)
         if score <= best_score:
-            if depth < shortest_depth: # if the move is the shortest win/draw and its score is good enough (<= score)
+            if depth < shortest_depth:
                 best_score = score
                 best_move = move
-        # Testing print statement
-        # print(f"Move = {move}, Score = {score}, Depth = {depth}")
+        print(f"Move = {move}, Score = {score}, Depth = {depth}")
         interface.undo_move(move)
     return best_move
 
 
-player = False
+player = False  # False = computer plays first, else human plays first
+
 if first_or_not == "f":
     player = True
     game.print_board()
@@ -70,12 +70,12 @@ while get_all_moves(game):
     game.play_turn(square, player)
     if (winner := game.check_winner(player)) != 69:  # if 69 then no winner yet
         if winner == 1:
-            print("Player wins!")
-        elif winner == 0:
-            print("Tie!")
-        else:
+            print("Human wins!")
+        elif winner == -1:
             print("Computer wins!")
+        else:
+            print("Draw!")
         game.print_board()
         break
-    player = not player
+    player = not player  # if True then make it false, vice versa
     game.print_board()
