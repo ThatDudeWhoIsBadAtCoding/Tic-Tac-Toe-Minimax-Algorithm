@@ -9,25 +9,15 @@ first_or_not = input("Enter F or first or S for second: ").lower()
 def minimax(interface: Game, ismaximising: bool, depth: int) -> int:
     if (winner := interface.check_winner(not ismaximising)) != 69:
         return winner, depth
-
-    if ismaximising:
-        best_score = -inf
-        all_moves = get_all_moves(interface)
-        for move in all_moves:
-            interface.play_turn(move, ismaximising)
-            score, depth = minimax(interface, not ismaximising, depth + 1)
-            interface.undo_move(move)
-            best_score = max(best_score, score)
-        return best_score, depth
-    else:
-        best_score = inf
-        all_moves = get_all_moves(interface)
-        for move in all_moves:
-            interface.play_turn(move, ismaximising)
-            score, depth = minimax(interface, not ismaximising, depth + 1)
-            interface.undo_move(move)
-            best_score = min(best_score, score)
-        return best_score, depth
+    # toggle best score depending on if its maxmising players turn
+    best_score = -inf if ismaximising else inf
+    all_moves = get_all_moves(interface)
+    for move in all_moves:
+        interface.play_turn(move, ismaximising)
+        score, depth = minimax(interface, not ismaximising, depth + 1)
+        interface.undo_move(move)
+        best_score = max(best_score, score) if ismaximising else min(best_score, score)
+    return best_score, depth
 
 
 def get_all_moves(interface: Game) -> list[int]:
