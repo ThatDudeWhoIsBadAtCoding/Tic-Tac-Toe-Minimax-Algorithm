@@ -7,7 +7,7 @@ first_or_not = input("Enter F or first or S for second: ").lower()
 
 
 def minimax(interface: Game, ismaximising: bool, depth: int) -> int:
-    if (winner := interface.check_winner(not ismaximising)) != 69:
+    if (winner := interface.check_winner(not ismaximising)) != 69: # 69 means game is not over, so if its not 69 it means that either its a draw or win
         return winner, depth
     # toggle best score depending on if its maxmising players turn
     best_score = -inf if ismaximising else inf
